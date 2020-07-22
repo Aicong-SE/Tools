@@ -1,0 +1,28 @@
+"""访问高德地图获取定位"""
+import requests
+from django.http import JsonResponse
+
+def location(request):
+    if request.GET.get:
+        # 定位获取所在城市
+        ip = get_ip(request)
+        locationData = get_location(ip)
+        if not locationData['status'] or not locationData['city']:
+            return JsonResponse({'code':10000,'data':'定位失败'})
+        return JsonResponse({'code':200,'city':locationData['city']})
+
+def get_ip(request):
+    """获取ip"""
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]  # 所以这里是真实的ip
+    else:
+        ip = request.META.get('REMOTE_ADDR')  # 这里获得代理ip
+    return ip
+
+def get_location(ip):
+    """获取定位信息"""
+    parameters = {'key': '6d218fa87e5cd764cd3a6dc9b5826de2','ip':ip,'output':'json'}
+    base = 'https://restapi.amap.com/v3/ip'
+    response = requests.get(base, parameters)
+    return response.json()
