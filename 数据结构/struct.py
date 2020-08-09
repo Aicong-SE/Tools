@@ -1,4 +1,5 @@
-class LNote:
+# ------------单链表--------------
+class Note:
     '''线性节点类'''
     def __init__(self,value=None):
         self.value = value
@@ -11,10 +12,12 @@ class LinearLinked:
         将可迭代对象转成线性链表
         :param ite:可迭代对象
         '''
-        self.header = q = LNote()
+        self.header = q = Note()
         self.length = 0
+        if not iter:
+            return
         for value in iter:
-            q.next = LNote(value)
+            q.next = Note(value)
             self.length += 1
             q = q.next
 
@@ -26,7 +29,7 @@ class LinearLinked:
         '''
         if index>=self.length:
             raise IndexError('linear index out of range')
-        note = LNote(value)
+        note = Note(value)
         q = self.header
         for i in range(index):
             q = q.next
@@ -95,9 +98,117 @@ class LinearLinkedIterator:
             raise StopIteration
         self.note = self.note.next
         return self.note.value
+# ------------栈--------------
+class Stack:
+    def __init__(self,iter=None):
+        '''
+        初始化栈
+        :param iter:可迭代对象 初始化数据
+        '''
+        self.header = Note()
+        self.length = 0
+        if not iter:
+            return
+        for i in iter:
+            note = Note(i)
+            note.next,self.header.next = self.header.next,note
+            self.length += 1
+
+    def is_empty(self):
+        '''
+        判断栈是否为空
+        :return: 布尔值
+        '''
+        return self.header.next == None
+
+    def peek(self):
+        '''
+        返回栈顶元素
+        :return: 栈顶元素
+        '''
+        if self.is_empty():
+            raise IndexError('栈为空')
+        return self.header.next.value
+
+    def size(self):
+        '''
+        返回栈的大小
+        :return: 栈的大小
+        '''
+        return self.length
+
+    # 把新的元素堆进栈里面（程序员喜欢把这个过程叫做压栈，入栈，进栈……）
+    def push(self, val):
+        '''
+        入栈
+        :param val: 元素
+        :return: None
+        '''
+        if not val:
+            raise ValueError('val的值为空')
+        note = Note(val)
+        self.header.next, note.next = note, self.header.next
+        self.length += 1
+
+    def pop(self):
+        '''
+        出栈
+        :return: 栈顶元素
+        '''
+        if self.is_empty():
+            raise IndexError('栈为空')
+        res = self.header.next.value
+        self.header.next = self.header.next.next
+        self.length -= 1
+        return res
+
+def conversion(n, x):
+    '''
+    十进制转其他进制
+    :param n: 需要转换进制的十进制数
+    :param x: 进制
+    :return: 转换后的数
+    '''
+    s = Stack()
+    res = ''
+    while n>0:
+        s.push(n%x)
+        n //= x
+    while not s.is_empty():
+        res += str(s.pop())
+    return res
+
+def pareMacthing(string):
+    '''
+    验证字符串中的括号是否匹配
+    :param s: 字符串
+    :return: bool
+    '''
+    if not string:
+        return True
+    s = Stack()
+    for i in string:
+        if i in ['(','[','{']:
+            s.push(i)
+        if i == ')':
+            if s.peek() == '(':
+                s.pop()
+            else:
+                return False
+        elif i == ']':
+            if s.peek() == '[':
+                s.pop()
+            else:
+                return False
+        elif i == '}':
+            if s.peek() == '{':
+                s.pop()
+            else:
+                return False
+    return True if s.is_empty() else False
 
 if __name__ == '__main__':
-    pass
+    print(pareMacthing('sbaidb()duqwhud[{()]'))
 
 
 
