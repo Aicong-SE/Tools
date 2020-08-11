@@ -162,7 +162,7 @@ class Stack:
         self.length -= 1
         return res
 
-def conversion(n, x):
+def conversion(n:int, x:int)->str:
     '''
     十进制转其他进制
     :param n: 需要转换进制的十进制数
@@ -178,7 +178,7 @@ def conversion(n, x):
         res += str(s.pop())
     return res
 
-def pareMacthing(string):
+def pareMacthing(string:str)->bool:
     '''
     验证字符串中的括号是否匹配
     :param s: 字符串
@@ -206,9 +206,49 @@ def pareMacthing(string):
             else:
                 return False
     return True if s.is_empty() else False
+# --------------队列-----------------
+class Queue:
+    def __init__(self,iter=None):
+        '''
+        初始化队列
+        :param iter: 可迭代对象
+        '''
+        self.rear=self.header = Note()
+        self.length = 0
+        if not iter:
+            return
+        for i in iter:
+            note = Note(i)
+            self.rear.next = note
+            self.rear = self.rear.next
+            self.length += 1
+
+    def put(self,value):
+        '''
+        入队
+        :param value: 入队的数据
+        :return: None
+        '''
+        self.rear.next = Note(value)
+        self.rear = self.rear.next
+        self.length += 1
+
+    def pop(self):
+        '''
+        出队
+        :return: 出队的数据
+        '''
+        if not self.length:
+            raise ValueError('队列为空')
+        res = self.header.next
+        self.header.next = self.header.next.next
+        return res
 
 if __name__ == '__main__':
-    print(pareMacthing('sbaidb()duqwhud[{()]'))
+    from queue import deque
+    dq = deque(['a','b'])
+    print(dq)
+
 
 
 
