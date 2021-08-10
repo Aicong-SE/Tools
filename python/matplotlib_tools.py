@@ -2,6 +2,12 @@ from matplotlib.ticker import MultipleLocator
 import matplotlib.pyplot as plt
 import pylab as pl
 
+"""
+画图工具
+
+提供与图形用户化界面相关的方法
+"""
+
 
 def drawing():
     """

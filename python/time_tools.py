@@ -1,7 +1,13 @@
 import time
 
+"""
+时间工具
 
-def _timestamp_in_time(timestamp: float, time_format: str = '%Y-%m-%d %H:%M:%S'):
+提供一些与时间相关的方法
+"""
+
+
+def _timestamp_in_time(timestamp: float, time_format: str = '%Y-%m-%d %H:%M:%S') -> str:
     """
     时间戳转时间
     :param timestamp: 时间戳 （单位：秒）
@@ -10,7 +16,7 @@ def _timestamp_in_time(timestamp: float, time_format: str = '%Y-%m-%d %H:%M:%S')
     return time.strftime(time_format, time.localtime(timestamp))
 
 
-def _time_in_timestamp(time_str: str, time_format: str = '%Y-%m-%d %H:%M:%S'):
+def _time_in_timestamp(time_str: str, time_format: str = '%Y-%m-%d %H:%M:%S') -> float:
     """
     时间转时间戳
     :param time_str: 时间
