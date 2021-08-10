@@ -3,6 +3,7 @@
 
 提供与文件相关的方法
 """
+import os
 from pathlib import Path
 
 
@@ -31,3 +32,12 @@ def exists(url: str) -> bool:
     :return: true 存在  false 不存在
     """
     return Path(url).exists()
+
+
+def create_file(url: str) -> None:
+    """
+    创建文件
+    创建文件时如果路径不存在会创建这个路径
+    :param url: 文件路径
+    """
+    os.makedirs(url)
