@@ -41,3 +41,16 @@ def create_file(url: str) -> None:
     :param url: 文件路径
     """
     os.makedirs(url)
+
+
+def write_file(url: str, mode: str, content: str):
+    """
+    将内容写入文件
+    :param url: 文件路径
+    :param mode: 文件打开类型  w 清空重写  a 不清空，增量写入
+    :param content: 内容
+    """
+    if mode not in ["w", "a"]:
+        raise Exception("请传入正确的 mode 值")
+    with open(url, mode) as f:
+        f.write(content)
