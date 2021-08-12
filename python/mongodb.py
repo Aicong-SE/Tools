@@ -105,3 +105,10 @@ class MongoDb:
         :param filter: 过滤器
         """
         return self._mongo_db[collection_name].delete_many(filter=filter)
+
+    def get_collections(self):
+        """
+        Get a list of all the collection names in this database.
+        :return:
+        """
+        return self._mongo_db.list_collection_names()
