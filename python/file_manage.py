@@ -37,7 +37,7 @@ def exists(url: str) -> bool:
 
 # endregion
 
-# region 创建文件与目录
+# region 创建与删除文件与目录
 def create_directory(url: str) -> None:
     """
     创建目录
@@ -57,10 +57,17 @@ def create_file(url: str) -> None:
     file.close()
 
 
+def delete_file(url: str) -> None:
+    """
+    删除文件
+    """
+    os.remove(url)
+
+
 # endregion
 
 # region 读写文件
-def write_file(url: str, mode: str, content: str):
+def write_file(url: str, mode: str, content: str) -> None:
     """
     将内容写入文件
     :param url: 文件路径
@@ -71,6 +78,27 @@ def write_file(url: str, mode: str, content: str):
         raise Exception("请传入正确的 mode 值")
     with open(url, mode) as f:
         f.write(content)
+
+
+def read_file(url: str) -> str:
+    """
+    读取文件全部内容
+    :param url: 文件路径
+    :return: 全部内容
+    """
+    with open(url, 'r') as f:
+        return f.read()
+
+
+def read_lines_file(url: str):
+    """
+    按行读取文件
+    :param url: 文件路径
+    :yield: 每行字符串  可迭代对象
+    """
+    with open(url, 'r') as f:
+        for item in f.readline():
+            yield item
 
 
 # endregion
